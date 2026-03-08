@@ -1,7 +1,16 @@
 import axios from 'axios'
 
+let baseURL = '/api'
+if (import.meta.env.VITE_API_URL) {
+    baseURL = import.meta.env.VITE_API_URL
+    // If the user forgot to add /api at the end of their Render URL in Vercel, append it
+    if (!baseURL.endsWith('/api') && !baseURL.endsWith('/api/')) {
+        baseURL = baseURL.replace(/\/$/, '') + '/api'
+    }
+}
+
 const api = axios.create({
-    baseURL: '/api',
+    baseURL
 })
 
 // Attach JWT token to every request
